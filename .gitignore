@@ -1,24 +1,55 @@
-# Compiled class file
-*.class
+import java.util.Scanner;
 
-# Log file
-*.log
+public class StudentGradeCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-# BlueJ files
-*.ctxt
+        // Input: Take marks obtained (out of 100) in each subject.
+        System.out.println("Enter the number of subjects:");
+        int numSubjects = scanner.nextInt();
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+        int totalMarks = 0;
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+        // Loop to input marks for each subject
+        for (int i = 1; i <= numSubjects; i++) {
+            System.out.print("Enter marks for Subject " + i + ": ");
+            int marks = scanner.nextInt();
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+            // Validate marks (assuming marks are between 0 and 100)
+            if (marks < 0 || marks > 100) {
+                System.out.println("Invalid marks! Marks should be between 0 and 100.");
+                return;
+            }
+
+            totalMarks += marks;
+        }
+
+        // Calculate Total Marks
+        System.out.println("Total Marks: " + totalMarks);
+
+        // Calculate Average Percentage
+        double averagePercentage = (double) totalMarks / numSubjects;
+        System.out.println("Average Percentage: " + averagePercentage + "%");
+
+        // Grade Calculation
+        char grade = calculateGrade(averagePercentage);
+        System.out.println("Grade: " + grade);
+
+        scanner.close();
+    }
+
+    // Function to calculate the grade based on the average percentage
+    private static char calculateGrade(double averagePercentage) {
+        if (averagePercentage >= 90) {
+            return 'A';
+        } else if (averagePercentage >= 80) {
+            return 'B';
+        } else if (averagePercentage >= 70) {
+            return 'C';
+        } else if (averagePercentage >= 60) {
+            return 'D';
+        } else {
+            return 'F';
+        }
+    }
+}
