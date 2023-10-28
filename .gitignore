@@ -1,55 +1,60 @@
+import java.util.Random;
 import java.util.Scanner;
 
-public class StudentGradeCalculator {
+public class NumberGuessingGame {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
 
-        // Input: Take marks obtained (out of 100) in each subject.
-        System.out.println("Enter the number of subjects:");
-        int numSubjects = scanner.nextInt();
+        int lowerBound = 1;
+        int upperBound = 100;
+        int maxAttempts = 5;
+        int score = 0;
 
-        int totalMarks = 0;
+        System.out.println("Welcome to the Number Guessing Game!");
 
-        // Loop to input marks for each subject
-        for (int i = 1; i <= numSubjects; i++) {
-            System.out.print("Enter marks for Subject " + i + ": ");
-            int marks = scanner.nextInt();
+        do {
+            // Step 1: Generate a random number within the specified range
+            int randomNumber = random.nextInt(upperBound - lowerBound + 1) + lowerBound;
 
-            // Validate marks (assuming marks are between 0 and 100)
-            if (marks < 0 || marks > 100) {
-                System.out.println("Invalid marks! Marks should be between 0 and 100.");
-                return;
+            // Step 2: Prompt the user to enter their guess
+            System.out.println("Guess the number between " + lowerBound + " and " + upperBound + ": ");
+
+            int attempts = 0;
+
+            // Step 3: Compare the user's guess and provide feedback
+            while (attempts < maxAttempts) {
+                int userGuess = scanner.nextInt();
+                attempts++;
+
+                if (userGuess == randomNumber) {
+                    System.out.println("Congratulations! You guessed the correct number in " + attempts + " attempts.");
+                    score++;
+                    break;
+                } else if (userGuess < randomNumber) {
+                    System.out.println("Too low! Try again.");
+                } else {
+                    System.out.println("Too high! Try again.");
+                }
+
+                if (attempts < maxAttempts) {
+                    System.out.println("Attempts left: " + (maxAttempts - attempts));
+                }
             }
 
-            totalMarks += marks;
-        }
+            // Step 4: Ask the user if they want to play again
+            System.out.println("Do you want to play again? (yes/no): ");
+            String playAgain = scanner.next();
 
-        // Calculate Total Marks
-        System.out.println("Total Marks: " + totalMarks);
+            if ("no".equalsIgnoreCase(playAgain)) {
+                break;
+            }
+        } while (true);
 
-        // Calculate Average Percentage
-        double averagePercentage = (double) totalMarks / numSubjects;
-        System.out.println("Average Percentage: " + averagePercentage + "%");
+        // Step 5: Display the user's score
+        System.out.println("Your final score is: " + score);
 
-        // Grade Calculation
-        char grade = calculateGrade(averagePercentage);
-        System.out.println("Grade: " + grade);
-
+        // Close the scanner
         scanner.close();
-    }
-
-    // Function to calculate the grade based on the average percentage
-    private static char calculateGrade(double averagePercentage) {
-        if (averagePercentage >= 90) {
-            return 'A';
-        } else if (averagePercentage >= 80) {
-            return 'B';
-        } else if (averagePercentage >= 70) {
-            return 'C';
-        } else if (averagePercentage >= 60) {
-            return 'D';
-        } else {
-            return 'F';
-        }
     }
 }
